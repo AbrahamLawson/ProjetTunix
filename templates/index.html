@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Accueil - Musique</title>
+</head>
+
+<body>
+    <nav>
+        <div class="navContainer">
+            <div id="logo" >
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='Capture d’écran (25).png') }}" alt="Logo Tunix">
+                </a>
+            </div>
+            <ul id="icons">
+                <li>
+                    <span class="fa fa-heart"></span>
+                </li>
+                <li>
+                    <span class="fa fa-star"></span>
+                </li>
+                <li>
+                    <span class="fa fa-envelope"></span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="partitions">
+            <a href="{{ url_for('rap') }}" class="partition" style="background-color: #c3f0ca;">
+                <h2>RAP</h2>
+            </a>
+            <a href="{{ url_for('jazz') }}" class="partition" style="background-color: #ff8ba7;">
+                <h2>JAZZ</h2>
+            </a>
+            
+            <a href="{{ url_for('varieteInternational') }}" class="partition" style="background-color: #c3f0ca;">
+                <h2>VARIETE INTERNATIONAL</h2>
+            </a>
+            <!-- Ajoutez d'autres partitions ici -->
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

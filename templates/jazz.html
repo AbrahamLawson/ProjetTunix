@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <title>Jazz</title>
+</head>
+
+<body>
+    <nav>
+        <div class="navContainer">
+            <div id="logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='Capture d’écran (25).png') }}" alt="Logo Tunix">
+                </a>
+            </div>
+            <ul id="icons">
+                <li>
+                    <span class="fa fa-heart"></span>
+                </li>
+                <li>
+                    <span class="fa fa-star"></span>
+                </li>
+                <li>
+                    <span class="fa fa-envelope"></span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="music-container">
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/yFC_ygdRVJSQL7P5zERkq8TxvrhDL7ZAYDx-8rYJY5g/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/Y3Jvb25lcnJhZGlv/LmZyL3dwLWNvbnRl/bnQvdXBsb2Fkcy8y/MDE4LzA0L3JheS1j/aGFybGVzLW11c2lj/LWFydGlzdC5qcGc" alt="Image de la chanson">
+                <h2>Ray Charles Georgia On My Min</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn1" src="{{ url_for('static', filename='Ray Charles - Georgia On My Mind (Official Video).mp3') }}"></audio>
+                <span id="playButton1" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song1">{{ likes['song1'] }}</span></p>
+            <button class="like-button" onclick="like('song1')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song1')">Contre</button>
+        </div>
+    
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/UZuJzeBZAqS9CuqPcrs29wXQ-E19WuSABZFJiNriyGE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9oaXBz/LmhlYXJzdGFwcHMu/Y29tL2htZy1wcm9k/L2ltYWdlcy9iZW5u/eS1nb29kbWFuLmpw/Zz9yZXNpemU9MTIw/MDoq" alt="Image de la chanson">
+                <h2>Benny Goodman SING, SING, SING</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn2" src="{{ url_for('static', filename='SING, SING, SING BY BENNY GOODMAN.mp3') }}"></audio>
+                <span id="playButton2" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song2">{{ likes['song2'] }}</span></p>
+            <button class="like-button" onclick="like('song2')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song2')">Contre</button>
+        </div>
+    
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/kcrfjy-b8g_PDwRZ71QA5ge6dU_OVrcL_-zcdeZnOOs/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9yZW5k/ZXIuZmluZWFydGFt/ZXJpY2EuY29tL2lt/YWdlcy9yZW5kZXJl/ZC9zZWFyY2gvcHJp/bnQvNi41LzgvYnJl/YWsvaW1hZ2VzLW1l/ZGl1bS01LzEtYS1w/b3J0cmFpdC1vZi1n/ZW9yZ2UtZ2Vyc2h3/aW4tYXQtYS1waWFu/by1lZHdhcmQtc3Rl/aWNoZW4uanBn" alt="Image de la chanson">
+                <h2>George Gershwin - Summertime</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn1" src="{{ url_for('static', filename='George Gershwin - Summertime.mp3') }}"></audio>
+                <span id="playButton1" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song3">{{ likes['song3'] }}</span></p>
+            <button class="like-button" onclick="like('song3')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song3')">Contre</button>
+        </div>
+        
+    </div>
+
+    <script>
+    // Sélectionnez tous les éléments avec la classe "music-player"
+    const musicPlayers = document.querySelectorAll('.music-player');
+
+    // Boucle à travers chaque élément avec la classe "music-player"
+    musicPlayers.forEach(function (player, index) {
+        const audio = player.querySelector('audio');
+        const playButton = player.querySelector('.play-button');
+
+        playButton.addEventListener('click', function () {
+            if (audio.paused) {
+                audio.play();
+                playButton.className = "fas fa-pause";
+            } else {
+                audio.pause();
+                playButton.className = "fas fa-play";
+            }
+        });
+    });
+
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    function like(song_id) {
+        socket.emit('like', { song_id: song_id });
+    }
+
+    function dislike(song_id) {
+        socket.emit('dislike', { song_id: song_id });
+    }
+
+    socket.on('update_likes', function (data) {
+        document.getElementById('likes-' + data.song_id).textContent = data.likes;
+    });
+</script>
+
+
+</body>
+
+</html>

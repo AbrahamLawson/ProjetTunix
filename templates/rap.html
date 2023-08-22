@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <title>Rap</title>
+
+</head>
+
+<body>
+    <nav>
+        <div class="navContainer">
+            <div id="logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='Capture d’écran (25).png') }}" alt="Logo Tunix">
+                </a>
+            </div>
+            <ul id="icons">
+                <li>
+                    <span class="fa fa-heart"></span>
+                </li>
+                <li>
+                    <span class="fa fa-star"></span>
+                </li>
+                <li>
+                    <span class="fa fa-envelope"></span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="music-container">
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/-vv1V53gN9evCkz1mMrkGyWMOT45TBEQgiCpx0TZUvE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9paDEu/cmVkYnViYmxlLm5l/dC9pbWFnZS4yOTY3/NDIzODQ0Ljk2Mzcv/cHAsNTA0eDQ5OC1w/YWQsNjAweDYwMCxm/OGY4ZjguanBn"
+                    alt="Image de la chanson">
+                <h2>Ninho Putana</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn1" src="{{ url_for('static', filename='Ninho - Putana (Clip officiel).mp3') }}"></audio>
+                <span id="playButton1" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song1">{{ likes['song1'] }}</span></p>
+            <button class="like-button" onclick="like('song1')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song1')">Contre</button>
+        </div>
+
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/4q9oUjoHy-oV3LxGOWFQRM1yWfb1yQ8E_wAvkHPrVlY/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMxLnB1cmVwZW9w/bGUuY29tL2FydGlj/bGVzLzEvNDkvNjMv/MDEvQC83MjEwNTgw/LWp1bC1hbGJ1bS1k/ZS1tdXNpcXVlcy11/cmJhaW5lcy1sb3Jz/LWRlLTU4MHg1ODAt/Mi5qcGc"
+                    alt="Image de la chanson">
+                <h2>JuL - La faille</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn2" src="{{ url_for('static', filename='JuL - La faille Clip Officiel 2023.mp3') }}"></audio>
+                <span id="playButton2" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song2">{{ likes['song2'] }}</span></p>
+            <button class="like-button" onclick="like('song2')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song2')">Contre</button>
+        </div>
+
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/x669sFZrwNdQeEjXrmxAhv3HuyikCldOjsWQ4AGDfWs/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/cmFwY2l0eS5mci93/cC1jb250ZW50L3Vw/bG9hZHMvMjAyMC8w/MS9wdW5jaGxpbmUt/a2VyeS1qYW1lcy5q/cGc"
+                    alt="Image de la chanson">
+                <h2>Kery James</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn1" src="{{ url_for('static', filename='Kery James - Lettre à la République (Clip officiel).mp3') }}"></audio>
+                <span id="playButton1" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song3">{{ likes['song3'] }}</span></p>
+            <button class="like-button" onclick="like('song3')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song3')">Contre</button>
+        </div>
+    </div>
+    <script>
+        // Sélectionnez tous les éléments avec la classe "music-player"
+        const musicPlayers = document.querySelectorAll('.music-player');
+
+        // Boucle à travers chaque élément avec la classe "music-player"
+        musicPlayers.forEach(function (player, index) {
+            const audio = player.querySelector('audio');
+            const playButton = player.querySelector('.play-button');
+
+            playButton.addEventListener('click', function () {
+                if (audio.paused) {
+                    audio.play();
+                    playButton.className = "fas fa-pause";
+                } else {
+                    audio.pause();
+                    playButton.className = "fas fa-play";
+                }
+            });
+        });
+
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function like(song_id) {
+            socket.emit('like', { song_id: song_id });
+        }
+
+        function dislike(song_id) {
+            socket.emit('dislike', { song_id: song_id });
+        }
+
+        socket.on('update_likes', function (data) {
+            document.getElementById('likes-' + data.song_id).textContent = data.likes;
+        });
+    </script>
+
+
+
+</body>
+
+</html>

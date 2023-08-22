@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <title>Varieter internationnal</title>
+</head>
+
+<body>
+    <nav>
+        <div class="navContainer">
+            <div id="logo">
+                <a href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='Capture d’écran (25).png') }}" alt="Logo Tunix">
+                </a>
+            </div>
+            <ul id="icons">
+                <li>
+                    <span class="fa fa-heart"></span>
+                </li>
+                <li>
+                    <span class="fa fa-star"></span>
+                </li>
+                <li>
+                    <span class="fa fa-envelope"></span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="music-container">
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/zLnX_bU_zD2V4yG1grkE7obEAy5iFa-DPygghW8i-ik/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODF1dU5wRU12TEwu/anBn"
+                    alt="Image de la chanson">
+                <h2>Luis Fonsi - Despacito</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn1"src="{{ url_for('static', filename='Luis Fonsi ‒ Despacito ( ) ft. Daddy Yankee.mp3') }}"></audio>
+                <span id="playButton1" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song1">{{ likes['song1'] }}</span></p>
+            <button class="like-button" onclick="like('song1')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song1')">Contre</button>
+        </div>
+
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/HCdbJFVhQsXhC4HdUdNszIIo5v0zupYDnhAgudECRK4/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9jZG4u/c21laG9zdC5uZXQv/c29ueW11c2ljZnIt/ZnJwcm9kL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIzLzAyL0hB/VElLLmpwZw"
+                    alt="Image de la chanson">
+                <h2>Hatik - Angela</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn2" src="{{ url_for('static', filename='Hatik - Angela.mp3') }}"></audio>
+                <span id="playButton2" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song2">{{ likes['song2'] }}</span></p>
+            <button class="like-button" onclick="like('song2')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song2')">Contre</button>
+        </div>
+
+        <div class="music-item">
+            <div class="music-info">
+                <img src="https://imgs.search.brave.com/i7f9D5OiXthqWbhsEvW8C4uAQDhdbs0JqYVExyxxhko/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc3F1YXJlc3Bh/Y2UtY2RuLmNvbS9j/b250ZW50L3YxLzVk/NGI0ZWM2YzJjNjZm/MDAwMTU0MDZhOC8x/NTg5ODI3Mjc3Mjg1/LTlINVZCNUlBTlFI/SThaU0w4SDI1L1N1/cmYtTWVzYS1QcmVz/cy1QaG90b1cuanBn"
+                    alt="Image de la chanson">
+                <h2>Surf Mesa - ily</h2>
+            </div>
+            <div class="music-player">
+                <audio id="btn1"src="{{ url_for('static', filename='Surf Mesa - ily (i love you baby) ft. Emilee.mp3') }}"></audio>
+                <span id="playButton1" class="fas fa-play play-button"></span>
+            </div>
+            <p>Likes: <span id="likes-song3">{{ likes['song3'] }}</span></p>
+            <button class="like-button" onclick="like('song3')">Pour</button>
+            <button class="dislike-button" onclick="dislike('song3')">Contre</button>
+        </div>
+    </div>
+
+    <script>
+        // Sélectionnez tous les éléments avec la classe "music-player"
+        const musicPlayers = document.querySelectorAll('.music-player');
+
+        // Boucle à travers chaque élément avec la classe "music-player"
+        musicPlayers.forEach(function (player, index) {
+            const audio = player.querySelector('audio');
+            const playButton = player.querySelector('.play-button');
+
+            playButton.addEventListener('click', function () {
+                if (audio.paused) {
+                    audio.play();
+                    playButton.className = "fas fa-pause";
+                } else {
+                    audio.pause();
+                    playButton.className = "fas fa-play";
+                }
+            });
+        });
+
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function like(song_id) {
+            socket.emit('like', { song_id: song_id });
+        }
+
+        function dislike(song_id) {
+            socket.emit('dislike', { song_id: song_id });
+        }
+
+        socket.on('update_likes', function (data) {
+            document.getElementById('likes-' + data.song_id).textContent = data.likes;
+        });
+    </script>
+
+
+</body>
+
+</html>

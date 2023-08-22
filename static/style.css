@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+}
+
+/* Styles pour aligner la barre de navigation au centre */
+nav {
+    display: flex; /* Utilisation de la flexbox pour le positionnement */
+    justify-content: center; /* Centrer horizontalement les éléments */
+    align-items: center; /* Centrer verticalement les éléments */
+    background-color: #feb8c8; /* Couleur de fond de la barre de navigation */
+    height: 60px; /* Hauteur de la barre de navigation */
+  }
+  
+  .navContainer {
+    display: flex; /* Utilisation de la flexbox pour les éléments à l'intérieur */
+    justify-content: space-between; /* Espace équitable entre les éléments internes */
+    align-items: center; /* Centrer verticalement les éléments internes */
+    max-width: 1200px; /* Largeur maximale de la barre de navigation */
+    width: 100%; /* Utilisation de la largeur totale */
+    padding: 0 20px; /* Espacement intérieur gauche et droit */
+  }
+
+
+  #icons {
+    list-style: none;
+    display: flex; /* Utilisation de la flexbox pour les icônes */
+    align-items: center; /* Centrer verticalement les icônes */
+  }
+  
+  #icons li {
+    margin: 0 10px; /* Espacement entre les icônes */
+    color: #fff; /* Couleur des icônes */
+  }
+  
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.partitions {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 800px;
+    align-items: center;
+    justify-content: center;
+}
+
+.partition {
+    flex-basis: calc(33.33% - 20px);
+    margin: 10px;
+    padding: 2rem;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.partition h2 {
+    margin-top: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+a {
+    text-decoration: none; /* Supprimer le soulignement */
+    color: inherit; /* Utiliser la couleur héritée pour les liens */
+    
+  }
+  /* Changer le curseur en pointeur au survol des liens */
+
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+span{
+    color: #fff;
+}
+span:hover{
+    cursor: pointer;
+    color: #fa2e5e;
+    transform: scale(1.2); /* Effet d'agrandissement au survol */
+}
+
+/* Styles pour aligner la div music-container au centre de la page */
+/* Styles pour aligner la div music-container au centre de la page */
+.music-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px; /* Espacement depuis le haut */
+    text-align: center;
+}
+
+
+.music-info {
+    flex-basis: calc(33.33% - 20px);
+    margin: 10px;
+}
+/* Reduire la taille de toutes les images et les mettre à la même taille */
+.music-info img {
+    max-width: 450px; /* Définir la largeur maximale souhaitée */
+    min-height: 450px;
+    display: block;
+    margin:  auto; /* Centrer l'image horizontalement */
+}
+
+.music-player {
+    flex-basis: calc(33.33% - 20px);
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Style for Like and Dislike buttons */
+.like-button,
+.dislike-button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.like-button {
+    background-color: #62ff67;
+    color: white;
+}
+
+.dislike-button {
+    background-color:#ff6363;
+    color: white;
+}
+
+
+
+
