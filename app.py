@@ -6,7 +6,7 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 socketio = SocketIO(app)
 
 likes = {
-    'song1': 0,
+    'song1': 1,
     'song2': 0,
     'song3': 0
 }
